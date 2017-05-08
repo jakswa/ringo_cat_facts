@@ -1,0 +1,28 @@
+{
+  "name": "ringo_cat_facts",
+  "version": "0.0.2",
+  "description": "Basic NPM module showing how to make a Ringobot plugin",
+  "main": "ringo_cat_facts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jakswa/ringo_cat_facts.git"
+  },
+  "author": "Jake Swanson <jakswa@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jakswa/ringo_cat_facts/issues"
+  },
+  "homepage": "https://github.com/jakswa/ringo_cat_facts#readme",
+  "dependencies": {
+    "request": "^2.81.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "cat",
+    "facts",
+    "ringo"
+  ]
+}
