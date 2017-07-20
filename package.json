@@ -1,6 +1,6 @@
 {
   "name": "ringo_cat_facts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Basic NPM module showing how to make a Ringobot plugin",
   "main": "ringo_cat_facts.js",
   "scripts": {
