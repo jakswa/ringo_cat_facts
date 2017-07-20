@@ -1,4 +1,86 @@
-const request = require('request')
+const FACTS = [
+  "Cats actually have dreams, just like us. They start dreaming when they reach a week old.",
+  "Cats have over 100 sounds in their vocal repertoire, while dogs only have 10.",
+  "Most cats will eat 7 to 20 small meals a day. This interesting fact is brought to you by Nature's Recipe®.",
+  "Most cat litters contain four to six kittens.",
+  "Perhaps the oldest cat breed on record is the Egyptian Mau, which is also the Egyptian language's word for cat.",
+  "It has been said that the Ukrainian Levkoy has the appearance of a dog, due to the angles of its face.",
+  "A group of kittens is called a \"kindle\", and \"clowder\" is a term that refers to a group of adult cats.",
+  "In one litter of kittens, there could be multiple \"father\" cats.",
+  "A female cat is also known to be called a \"queen\" or a \"molly.\"",
+  "Maine Coons are the most massive breed of house cats. They can weigh up to around 24 pounds.",
+  "Eating grass rids a cats' system of any fur and helps with digestion.",
+  "Call them wide-eyes: cats are the mammals with the largest eyes.",
+  "The two outer layers of a cat's hair are called, respectively, the guard hair and the awn hair.",
+  "Around the world, cats take a break to nap —a catnap— 425 million times a day.",
+  "Teeth of cats are sharper when they're kittens. After six months, they lose their needle-sharp milk teeth.",
+  "A kitten with green fur was discovered in Denmark in 1995. Originally thought to be a genetic mutation, scientists later determined it was due to high copper levels in the water supply.",
+  "Cats have a 5 toes on their front paws and 4 on each back paw.",
+  "Cats' rough tongues enable them to clean themselves efficiently and to lick clean an animal bone.",
+  "Cats have the skillset that makes them able to learn how to use a toilet.",
+  "Today, cats are living twice as long as they did just 50 years ago.",
+  "Cats would rather starve themselves than eat something they don't like. This means they will refuse an unpalatable -- but nutritionally complete -- food for a prolonged period. This interesting fact is brought to you by Nature's Recipe®.",
+  "The Snow Leopard, a variety of the California Spangled Cat, always has blue eyes. More: http://ow.ly/muybI",
+  "Unlike most other cats, the Turkish Van breed has a water-resistant coat and enjoys being in water.",
+  "Ragdoll cats live up to their name: they will literally go limp, with relaxed muscles, when lifted by a human. More: http://ow.ly/muyip",
+  "When a household cat died in ancient Egypt, its owners showed their grief by shaving their eyebrows.",
+  "Cats sleep 16 hours of any given day.",
+  "Cats have a strong aversion to anything citrus.",
+  "A cat's heart beats almost double the rate of a human heart, from 110 to 140 beats per minute.",
+  "Cats show affection and mark their territory by rubbing on people. Glands on their face, tail and paws release a scent to make its mark.",
+  "Blue-eyed cats have a high tendency to be deaf, but not all cats with blue eyes are deaf. More: http://ow.ly/muyjm",
+  "A cat's field of vision does not cover the area right under its nose.",
+  "The color of York Chocolates becomes richer with age. Kittens are born with a lighter coat than the adults. More: http://ow.ly/muyag",
+  "In multi-pet households, cats are able to get along especially well with dogs if they're introduced when the cat is under 6 months old and the dog is under one year old.",
+  "In homes with more than one cat, it is best to have cats of the opposite sex. They tend to be better housemates.",
+  "Despite appearing like a wild cat, the Ocicat does not have an ounce of wild blood.",
+  "Cats came to the Americas from Europe as pest controllers in the 1750s.",
+  "Most kittens are born with blue eyes, which then turn color with age.",
+  "It is important to include fat in your cat's diet because they're unable to make the nutrient in their bodies on their own.",
+  "Cats can pick up on your tone of voice, so sweet-talking to your cat has more of an impact than you think.",
+  "If you killed a cat in the ages of Pharaoh, you could've been put to death.",
+  "Sir Isaac Newton, among his many achievements, invented the cat \"flap\" door.",
+  "Bobtails are known to have notably short tails -- about half or a third the size of the average cat. More: http://ow.ly/muye8",
+  "Cats who eat too much tuna can become addicted, which can actually cause a Vitamin E deficiency. More: http://ow.ly/muyf6",
+  "If your cat's eyes are closed, it's not necessarily because it's tired. A sign of closed eyes means your cat is happy or pleased.",
+  "Cat's back claws aren't as sharp as the claws on their front paws.",
+  "According to the Association for Pet Obesity Prevention (APOP), about 50 million of our cats are overweight.",
+  "Landing on all fours is something typical to cats thanks to the help of their eyes and special balance organs in their inner ear. These tools help them straighten themselves in the air and land upright on the ground.",
+  "According to the Guinness World Records, the largest domestic cat litter totaled at 19 kittens, four of them stillborn.",
+  "According to the International Species Information Service, there are only three Marbled Cats still in existence worldwide.  One lives in the United States.",
+  "The world's most fertile cat, whose name was Dusty, gave birth to 420 kittens in her lifetime.",
+  "Cats have 24 more bones than humans.",
+  "Most cats don't have eyelashes.",
+  "Cats are unable to detect sweetness in anything they taste.",
+  "Want to call a hairball by its scientific name? Next time, say the word \"bezoar.\"",
+  "As temperatures rise, so do the number of cats. Cats are known to breed in warm weather, which leads many animal advocates worried about the plight of cats under Global Warming.",
+  "In North America, cats are a more popular pet than dogs. Nearly 73 million cats and 63 million dogs are kept as household pets.",
+  "Sometimes called the Canadian Hairless, the Sphynx is the first cat breed that has lasted this long—the breed has been around since 1966.",
+  "Cats CAN be lefties and righties, just like us. More than forty percent of them are, leaving some ambidextrous.",
+  "Caution during Christmas: poinsettias may be festive, but they’re poisonous to cats.",
+  "Some cats can survive falls from as high up as 65 feet or more.",
+  "Talk about Facetime: Cats greet one another by rubbing their noses together.",
+  "Cats have the cognitive ability to sense a human's feelings and overall mood.",
+  "Each side of a cat's face has about 12 whiskers.",
+  "Ancient Egyptians first adored cats for their finesse in killing rodents—as far back as 4,000 years ago.",
+  "Twenty-five percent of cat owners use a blow drier on their cats after bathing.",
+  "Collectively, kittens yawn about 200 million time per hour.",
+  "A fingerprint is to a human as a nose is to a cat.",
+  "Cats use their whiskers to measure openings, indicate mood and general navigation. More: http://ow.ly/muykx",
+  "A cat can reach up to five times its own height per jump.",
+  "Rather than nine months, cats' pregnancies last about nine weeks.",
+  "A cat's meow is usually not directed at another cat, but at a human. To communicate with other cats, they will usually hiss, purr and spit.",
+  "Cats prefer their food at room temperature—not too hot, not too cold.",
+  "The Maine Coon is appropriately the official State cat of its namesake state.",
+  "Outdoor cats' lifespan averages at about 3 to 5 years; indoor cats have lives that last 16 years or more.",
+  "Although it is known to be the \"tailless cat,\" the Manx can be born with a stub or a short tail. More: http://ow.ly/muyhp",
+  "A Selkirk slowly loses its naturally-born curly coat, but it grows again when the cat is around 8 months. More: http://ow.ly/muycT",
+  "Genetically, cats' brains are more similar to that of a human than a dog's brain.",
+  "A third of cats' time spent awake is usually spent cleaning themselves.",
+  "Webbed feet on a cat? The Peterbald's got 'em! They make it easy for the cat to get a good grip on things with skill.",
+  "Black cats aren't an omen of ill fortune in all cultures. In the UK and Australia, spotting a black cat is good luck.",
+  "Because of widespread cat smuggling in ancient Egypt, the exportation of cats was a crime punishable by death."
+];
 
 class RingoCatFacts {
   static responseFor(message, rtm) {
@@ -8,10 +90,8 @@ class RingoCatFacts {
   }
 
   static sendCatFact(channel, rtm) {
-    request.get("http://catfacts-api.appspot.com/api/facts", function(err, res, body) {
-      let catFact = JSON.parse(body).facts[0];
-      rtm.sendMessage(catFact, channel);
-    })
+    let rand = Math.floor(Math.random() * FACTS.length);
+    rtm.sendMessage(FACTS[rand], channel);
   }
 }
 
